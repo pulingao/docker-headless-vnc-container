@@ -1,0 +1,25 @@
+# This Dockerfile is used to build an headles vnc image based on Ubuntu
+FROM vnc-base-for-ubuntu:1804
+
+MAINTAINER pulingao "plgnanco@gmail.com"
+ENV REFRESHED_AT 2021-04-23
+
+### Add all install scripts for further steps
+ADD ./src/common/install/ $INST_SCRIPTS/
+ADD ./src/ubuntu/install/ $INST_SCRIPTS/
+RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
+
+### run sh
+RUN $INST_SCRIPTS/add_user.sh
+
+### 安装deb
+ADD ./src/ubuntu/debs/ $HOME/
+
+### 切换home目录
+#ENV HOME=/home/user
+#WORKDIR $HOME
+USER user
+
+### install chrome
+RUN $INST_SCRIPTS/chrome.sh
+#RUN sudo apt install -y -f /home/user/google-chrome-stable_current_amd64.deb
