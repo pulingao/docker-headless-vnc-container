@@ -9,6 +9,8 @@ ADD ./src/common/install/ $INST_SCRIPTS/
 ADD ./src/ubuntu/install/ $INST_SCRIPTS/
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
 
+#RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+
 ### run sh
 RUN $INST_SCRIPTS/add_user.sh
 
